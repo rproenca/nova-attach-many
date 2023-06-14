@@ -17,7 +17,7 @@
                             class="w-full form-control form-input form-input-bordered" />
                     </div>
                 </div>
-                <div class="border border-gray-100 dark:border-gray-700 relative overflow-scroll" :style="{ height: currentField.height }" >
+                <div class="border border-gray-100 dark:border-gray-700 relative overflow-y-scroll" :style="{ height: currentField.height }" >
                     <div v-if="loading" class="flex justify-center" :style="{ height: currentField.height }">
                         <loader />
                     </div>
