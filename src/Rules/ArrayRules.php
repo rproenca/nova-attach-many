@@ -51,9 +51,9 @@ class ArrayRules implements Rule
     public function messages($attribute)
     {
         return [
-            "size" => __('Select exactly') . ' :size',
-            "min" => __('Select a minimum of') . ' :min',
-            "max" => __('Select a maximum of') . ' :max',
+            'size' => __('Select exactly').' :size',
+            'min' => __('Select a minimum of').' :min',
+            'max' => __('Select a maximum of').' :max',
         ];
     }
 }

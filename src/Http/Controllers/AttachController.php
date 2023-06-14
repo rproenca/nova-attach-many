@@ -2,8 +2,8 @@
 
 namespace NovaAttachMany\Http\Controllers;
 
-use Illuminate\Support\Str;
 use Illuminate\Routing\Controller;
+use Illuminate\Support\Str;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class AttachController extends Controller
@@ -19,8 +19,8 @@ class AttachController extends Controller
     {
         $foundResource = $request->findResourceOrFail();
 
-        if(! method_exists($foundResource->model(), $relationship)) {
-            abort(500, class_basename($foundResource->model()) . " is missing relationship: $relationship");
+        if (! method_exists($foundResource->model(), $relationship)) {
+            abort(500, class_basename($foundResource->model())." is missing relationship: $relationship");
         }
 
         $keyName = $foundResource->model()->{$relationship}()->getModel()->getKeyName();
@@ -45,7 +45,7 @@ class AttachController extends Controller
 
         return forward_static_call($this->associatableQueryCallable($request, $query), $request, $query, $field)->get()
             ->mapInto($field->resourceClass)
-            ->filter(function ($resource) use ($request, $field) {
+            ->filter(function ($resource) use ($request) {
                 return $request->newResource()->authorizedToAttach($request, $resource->resource);
             })->map(function ($resource) use ($request, $field) {
                 return $field->formatAssociatableResource($request, $resource);
@@ -55,7 +55,6 @@ class AttachController extends Controller
     /**
      * Get the associatable query method name.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return array
      */
@@ -69,7 +68,6 @@ class AttachController extends Controller
     /**
      * Get the associatable query method name.
      *
-     * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request
      * @param  \Illuminate\Database\Eloquent\Model  $model
      * @return string
      */

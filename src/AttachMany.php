@@ -1,19 +1,18 @@
 <?php
 
-
 namespace NovaAttachMany;
 
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Laravel\Nova\Authorizable;
 use Laravel\Nova\Fields\Field;
+use Laravel\Nova\Fields\FormatsRelatableDisplayValues;
+use Laravel\Nova\Fields\ResourceRelationshipGuesser;
 use Laravel\Nova\Fields\Searchable;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Util;
 use NovaAttachMany\Rules\ArrayRules;
-use Laravel\Nova\Http\Requests\NovaRequest;
-use Laravel\Nova\Fields\ResourceRelationshipGuesser;
-use Laravel\Nova\Fields\FormatsRelatableDisplayValues;
 
 class AttachMany extends Field
 {
@@ -90,7 +89,7 @@ class AttachMany extends Field
         $this->resourceName = $resource::uriKey();
         $this->manyToManyRelationship = $this->attribute ?? ResourceRelationshipGuesser::guessResource($name);
 
-        $this->fillUsing(function ($request, $model, $attribute, $requestAttribute) use ($resource) {
+        $this->fillUsing(function ($request, $model, $attribute, $requestAttribute) {
             if (is_subclass_of($model, 'Illuminate\Database\Eloquent\Model')) {
                 $model::saved(function ($model) use ($attribute, $request) {
 
@@ -108,7 +107,7 @@ class AttachMany extends Field
                     // sync
                     $changes = $model->$attribute()->sync($filtered_values);
 
-                    $method = Str::camel($attribute) . 'Synced';
+                    $method = Str::camel($attribute).'Synced';
 
                     $parent = $request->newResource();
 
@@ -152,15 +151,15 @@ class AttachMany extends Field
 
     public function authorize(Request $request)
     {
-        if (property_exists($this, 'seeCallback') && !is_null($this->seeCallback)) {
+        if (property_exists($this, 'seeCallback') && ! is_null($this->seeCallback)) {
             return $this->authorizedToSee($request);
         }
 
-        if (!$this->resourceClass::authorizable()) {
+        if (! $this->resourceClass::authorizable()) {
             return true;
         }
 
-        if (!isset($request->resource)) {
+        if (! isset($request->resource)) {
             return false;
         }
 
@@ -181,7 +180,6 @@ class AttachMany extends Field
     /**
      * set component height
      *
-     * @param $height
      * @return $this
      */
     public function height($height)
